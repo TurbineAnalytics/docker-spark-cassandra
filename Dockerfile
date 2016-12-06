@@ -41,11 +41,13 @@ ENV SPARK_WORKER_WEBUI_PORT 8081
 ENV CASSANDRA_CONFIG /etc/cassandra
 
 # listen to all rpc
-RUN sed -ri ' \
-		s/^(rpc_address:).*/\1 0.0.0.0/; \
-	' "$CASSANDRA_CONFIG/cassandra.yaml"
+RUN sed -ri 's/^(rpc_address:).*/\1 0.0.0.0/;' "$CASSANDRA_CONFIG/cassandra.yaml"
+RUN sed -ri '/authenticator: AllowAllAuthenticator/c\authenticator: PasswordAuthenticator' "$CASSANDRA_CONFIG/cassandra.yaml"
+RUN sed -ri '/authorizer: AllowAllAuthorizer/c\authorizer: CassandraAuthorizer' "$CASSANDRA_CONFIG/cassandra.yaml"
+RUN sed -ri '/endpoint_snitch: SimpleSnitch/c\endpoint_snitch: GossipingPropertyFileSnitch' "$CASSANDRA_CONFIG/cassandra.yaml"
 
 COPY cassandra-configurator.sh /cassandra-configurator.sh
+COPY update_users.sh /update_users.sh
 
 ENTRYPOINT ["/cassandra-configurator.sh"]
 
