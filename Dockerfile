@@ -21,6 +21,19 @@ RUN apt-get update \
     && apt-get install -y cassandra \
     && rm -rf /var/lib/apt/lists/*
 
+# install cron
+RUN apt-get update \
+  && apt-get install -y cron \
+  && rm -rf /var/lib/apt/lists/*
+
+# copy necessary files for backups to wor
+COPY backup/backup_script.sh /backup_script.sh
+COPY backup/cassandra_backup_cronjob.txt /cassandra_backup_cronjob.txt
+COPY backup/setup_crone_job.sh /setup_crone_job.sh
+
+# enable cron logging
+RUN touch /var/log/cron.log
+
 # copy some script to run spark
 COPY scripts/start-master.sh /start-master.sh
 COPY scripts/start-worker.sh /start-worker.sh
@@ -38,8 +51,8 @@ ENV SPARK_WORKER_PORT 8888
 ENV SPARK_WORKER_WEBUI_PORT 8081
 
 # configure cassandra
-ENV CASSANDRA_CONFIG /etc/cassandra
 
+ENV CASSANDRA_CONFIG /etc/cassandra
 # listen to all rpc
 RUN sed -ri 's/^(rpc_address:).*/\1 0.0.0.0/;' "$CASSANDRA_CONFIG/cassandra.yaml"
 RUN sed -ri '/authenticator: AllowAllAuthenticator/c\authenticator: PasswordAuthenticator' "$CASSANDRA_CONFIG/cassandra.yaml"
