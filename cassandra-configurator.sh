@@ -74,7 +74,7 @@ case "$1" in
 esac
 
 if [ "$CASSANDRA_CRON" = 'ENABLE' ]; then
-  ./setup_crone_job.sh
+  ./backup/setup_crone_job.sh
 fi
 
 exec /usr/bin/supervisord -c ${CONFIG_FILE}

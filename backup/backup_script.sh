@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/opt/java/bin
 
@@ -24,8 +24,29 @@ echo "Clear all snapshots"
 nodetool -h 127.0.0.1 clearsnapshot
 
 cd $BACKUPDIRECTORY
-pwd
-rm -rf *
+
+prev_snap_pattern="prev\-snapshot-[0-9]*\/"
+snap_pattern="snapshot-[0-9]*\/"
+
+X="`find */ -maxdepth 0 -type d`"
+
+if [[ (! $X =~ $prev_snap_pattern) && ($X =~ $snap_pattern) ]]; then
+	D="prev-$X"
+        if [ ! -d "$D" ]; then
+	        mkdir $D
+        fi
+fi
+
+snapshotFolder="`find */ -maxdepth 0  -regex $prev_snap_pattern`"
+previousSnapFolder="`find */ -maxdepth 0  -regex $snap_pattern`"
+
+echo "$previousSnapFolder"
+rm -rf "$previousSnapFolder"*
+
+cp -R "$snapshotFolder"* "$previousSnapFolder"
+
+mv "$previousSnapFolder" "prev-$snapshotFolder"
+rm -rf "$snapshotFolder"
 
 echo "Taking snapshot"
 nodetool -h 127.0.0.1 snapshot -t $SNAME
