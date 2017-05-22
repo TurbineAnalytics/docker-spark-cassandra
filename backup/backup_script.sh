@@ -37,16 +37,13 @@ if [[ (! $X =~ $prev_snap_pattern) && ($X =~ $snap_pattern) ]]; then
         fi
 fi
 
-snapshotFolder="`find */ -maxdepth 0  -regex $prev_snap_pattern`"
-previousSnapFolder="`find */ -maxdepth 0  -regex $snap_pattern`"
+previousSnapFolder="`find */ -maxdepth 0  -regex $prev_snap_pattern`"
+snapshotFolder="`find */ -maxdepth 0  -regex $snap_pattern`"
 
 echo "$previousSnapFolder"
-rm -rf "$previousSnapFolder"*
+rm -rf "$previousSnapFolder"
 
-cp -R "$snapshotFolder"* "$previousSnapFolder"
-
-mv "$previousSnapFolder" "prev-$snapshotFolder"
-rm -rf "$snapshotFolder"
+mv "$snapshotFolder" "prev-$snapshotFolder"
 
 echo "Taking snapshot"
 nodetool -h 127.0.0.1 snapshot -t $SNAME
