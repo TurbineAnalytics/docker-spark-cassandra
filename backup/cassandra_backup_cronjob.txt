@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+#Very important crone job that run every full hour
+0 * * * * /backup/backup_script.sh  >> /var/log/cron.log 2>&1
+# New line is required at the EOF for cron to work

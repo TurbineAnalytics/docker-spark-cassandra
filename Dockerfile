@@ -19,7 +19,14 @@ RUN echo 'deb http://www.apache.org/dist/cassandra/debian 35x main' >> /etc/apt/
 RUN apt-get update \
     && apt-get install net-tools \
     && apt-get install -y cassandra \
+    && apt-get install -y cron \
     && rm -rf /var/lib/apt/lists/*
+
+# copy necessary files for backups to work
+COPY backup/ /backup
+
+# enable cron logging
+RUN touch /var/log/cron.log
 
 # copy some script to run spark
 COPY scripts/start-master.sh /start-master.sh
