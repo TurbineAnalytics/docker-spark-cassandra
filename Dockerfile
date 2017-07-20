@@ -1,7 +1,7 @@
 FROM java:8
 
 # install and configure supervisor + curl
-RUN apt-get update && apt-get install -y supervisor curl && mkdir -p /var/log/supervisor
+RUN apt-get update && apt-get install -y supervisor curl && rm -rf /var/lib/apt/lists/* && mkdir -p /var/log/supervisor
 #COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY supervisor.conf/ /supervisor.conf/
 ENV SUPERVISOR_CONF_DEFAULT "/supervisor.conf/supervisord-cass.conf"
@@ -12,6 +12,9 @@ ENV SUPERVISOR_CONF_WORKER "/supervisor.conf/supervisord-worker.conf"
 # download and install spark
 RUN curl -s http://d3kbcqa49mib13.cloudfront.net/spark-1.6.1-bin-hadoop2.6.tgz | tar -xz -C /usr/local/
 RUN cd /usr/local && ln -s spark-1.6.1-bin-hadoop2.6 spark
+
+# install jemalloc shared library needed for cassandra
+RUN apt-get update && apt-get install -y --no-install-recommends libjemalloc1 && rm -rf /var/lib/apt/lists/*
 
 # install cassandra
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 514A2AD631A57A16DD0047EC749D6EEC0353B12C
