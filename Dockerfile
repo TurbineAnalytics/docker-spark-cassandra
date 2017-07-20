@@ -55,9 +55,11 @@ RUN sed -ri 's/^(rpc_address:).*/\1 0.0.0.0/;' "$CASSANDRA_CONFIG/cassandra.yaml
 RUN sed -ri '/authenticator: AllowAllAuthenticator/c\authenticator: PasswordAuthenticator' "$CASSANDRA_CONFIG/cassandra.yaml"
 RUN sed -ri '/authorizer: AllowAllAuthorizer/c\authorizer: CassandraAuthorizer' "$CASSANDRA_CONFIG/cassandra.yaml"
 RUN sed -ri '/endpoint_snitch: SimpleSnitch/c\endpoint_snitch: GossipingPropertyFileSnitch' "$CASSANDRA_CONFIG/cassandra.yaml"
+RUN sed -i -e '$a\JVM_OPTS="$JVM_OPTS -Dcassandra.metricsReporterConfigFile=metrics_reporter.yaml"' "$CASSANDRA_CONFIG/cassandra-env.sh"
 
 COPY cassandra-configurator.sh /cassandra-configurator.sh
 COPY update_users.sh /update_users.sh
+COPY conf/metrics_reporter.yaml $CASSANDRA_CONFIG/metrics_reporter.yaml
 
 ENTRYPOINT ["/cassandra-configurator.sh"]
 
