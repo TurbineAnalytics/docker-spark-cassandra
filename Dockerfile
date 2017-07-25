@@ -69,6 +69,7 @@ RUN sed -ri '/authenticator: AllowAllAuthenticator/c\authenticator: PasswordAuth
 RUN sed -ri '/authorizer: AllowAllAuthorizer/c\authorizer: CassandraAuthorizer' "$CASSANDRA_CONFIG/cassandra.yaml"
 RUN sed -ri '/endpoint_snitch: SimpleSnitch/c\endpoint_snitch: GossipingPropertyFileSnitch' "$CASSANDRA_CONFIG/cassandra.yaml"
 RUN sed -i -e '$a\JVM_OPTS="$JVM_OPTS -Dcassandra.metricsReporterConfigFile=metrics_reporter.yaml"' "$CASSANDRA_CONFIG/cassandra-env.sh"
+RUN sed -i '/# set jvm HeapDumpPath with CASSANDRA_HEAPDUMP_DIR/a CASSANDRA_HEAPDUMP_DIR="/var/log/cassandra"' "$CASSANDRA_CONFIG/cassandra-env.sh"
 
 COPY cassandra-configurator.sh /cassandra-configurator.sh
 COPY update_users.sh /update_users.sh
