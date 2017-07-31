@@ -35,8 +35,11 @@ ENV SUPERVISOR_CONF_WORKER "/supervisor.conf/supervisord-worker.conf"
 RUN curl -s http://d3kbcqa49mib13.cloudfront.net/spark-1.6.1-bin-hadoop2.6.tgz | tar -xz -C /usr/local/
 RUN cd /usr/local && ln -s spark-1.6.1-bin-hadoop2.6 spark
 
-# install jemalloc shared library needed for cassandra
-RUN apt-get update && apt-get install -y --no-install-recommends libjemalloc1 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libjemalloc1 \
+    && apt-get install net-tools \
+    && apt-get install -y cron \
+    && rm -rf /var/lib/apt/lists/*
 
 # copy necessary files for backups to work
 COPY backup/ /backup
