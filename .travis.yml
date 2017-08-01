@@ -3,6 +3,8 @@ services:
 
 before_install:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - export DOCKER_HUB_REPO=turbineanalytics/
+  - export MODULE=docker-spark-cassandra
 
 script:
   - ./build-and-push-docker-image.sh
