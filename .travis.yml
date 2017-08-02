@@ -2,6 +2,7 @@ services:
   - docker
 
 env:
+  global:
   - DOCKER_HUB_REPO=turbineanalytics/
   - MODULE=docker-spark-cassandra
 
