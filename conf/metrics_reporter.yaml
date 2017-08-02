@@ -1,0 +1,5 @@
+csv:
+  -
+    outdir: '/var/log/cassandra/metrics'
+    period: 10
+    timeunit: 'MINUTES'
