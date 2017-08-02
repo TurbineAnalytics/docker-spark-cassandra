@@ -53,6 +53,7 @@ COPY scripts/start-worker.sh /start-worker.sh
 COPY scripts/spark-shell.sh /spark-shell.sh
 COPY scripts/spark-cassandra-connector_2.10-1.6.0.jar /spark-cassandra-connector_2.10-1.6.0.jar
 COPY scripts/spark-defaults.conf /spark-defaults.conf
+COPY conf/log4j-server.properties /app/log4j-server.properties
 
 # configure spark
 ENV SPARK_HOME /usr/local/spark
