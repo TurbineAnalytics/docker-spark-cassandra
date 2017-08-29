@@ -54,6 +54,7 @@ COPY scripts/spark-shell.sh /spark-shell.sh
 COPY scripts/spark-cassandra-connector_2.10-1.6.0.jar /spark-cassandra-connector_2.10-1.6.0.jar
 COPY scripts/spark-defaults.conf /spark-defaults.conf
 COPY conf/log4j-server.properties /app/log4j-server.properties
+COPY conf/spark-env.sh /usr/local/spark/conf/spark-env.sh
 
 # configure spark
 ENV SPARK_HOME /usr/local/spark
