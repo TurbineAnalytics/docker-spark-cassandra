@@ -32,8 +32,8 @@ ENV SUPERVISOR_CONF_MASTER "supervisor.conf/supervisord-master.conf"
 ENV SUPERVISOR_CONF_WORKER "/supervisor.conf/supervisord-worker.conf"
 
 # download and install spark
-RUN curl -s http://d3kbcqa49mib13.cloudfront.net/spark-1.6.1-bin-hadoop2.6.tgz | tar -xz -C /usr/local/
-RUN cd /usr/local && ln -s spark-1.6.1-bin-hadoop2.6 spark
+RUN curl -s http://www-eu.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/
+RUN cd /usr/local && ln -s spark-2.2.0-bin-hadoop2.7 spark
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libjemalloc1 \
@@ -51,7 +51,7 @@ RUN touch /var/log/cron.log
 COPY scripts/start-master.sh /start-master.sh
 COPY scripts/start-worker.sh /start-worker.sh
 COPY scripts/spark-shell.sh /spark-shell.sh
-COPY scripts/spark-cassandra-connector_2.10-1.6.0.jar /spark-cassandra-connector_2.10-1.6.0.jar
+COPY scripts/spark-cassandra-connector.jar /spark-cassandra-connector.jar
 COPY scripts/spark-defaults.conf /spark-defaults.conf
 COPY conf/log4j-server.properties /app/log4j-server.properties
 COPY conf/spark-env.sh /usr/local/spark/conf/spark-env.sh
