@@ -19,7 +19,7 @@ RUN 	cd /var/lib/dpkg/info && \
 	apt-get install oracle-java8-installer -y --allow-unauthenticated && \
 	apt-get clean
 
-ENV JAVA_HOME /opt/jdk/jdk1.8.0_161/
+ENV JAVA_HOME usr/lib/jvm/java-8-oracle/
 
 # install and configure supervisor + curl
 RUN apt-get update && apt-get install -y supervisor curl && rm -rf /var/lib/apt/lists/* && mkdir -p /var/log/supervisor
@@ -65,7 +65,7 @@ COPY cassandra-configurator.sh /cassandra-configurator.sh
 COPY update_users.sh /update_users.sh
 COPY conf/metrics_reporter.yaml $CASSANDRA_CONFIG/metrics_reporter.yaml
 
-ENTRYPOINT ["/cassandra-configurator.sh"]
+#ENTRYPOINT ["/cassandra-configurator.sh"]
 
 ### Spark
 # 4040: spark ui
@@ -86,4 +86,5 @@ ENTRYPOINT ["/cassandra-configurator.sh"]
 # 9160: C* thrift service
 EXPOSE 4040 7000 7001 7002 7003 7004 7005 7006 7077 7199 8080 8081 8888 9042 9160
 
-CMD ["cassandra"]
+#CMD ["cassandra"]
+CMD ["/bin/bash"]
