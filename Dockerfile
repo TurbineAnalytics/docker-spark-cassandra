@@ -65,7 +65,7 @@ COPY cassandra-configurator.sh /cassandra-configurator.sh
 COPY update_users.sh /update_users.sh
 COPY conf/metrics_reporter.yaml $CASSANDRA_CONFIG/metrics_reporter.yaml
 
-#ENTRYPOINT ["/cassandra-configurator.sh"]
+ENTRYPOINT ["/cassandra-configurator.sh"]
 
 ### Spark
 # 4040: spark ui
@@ -86,5 +86,5 @@ COPY conf/metrics_reporter.yaml $CASSANDRA_CONFIG/metrics_reporter.yaml
 # 9160: C* thrift service
 EXPOSE 4040 7000 7001 7002 7003 7004 7005 7006 7077 7199 8080 8081 8888 9042 9160
 
-#CMD ["cassandra"]
-CMD ["/bin/bash"]
+CMD ["cassandra"]
+
