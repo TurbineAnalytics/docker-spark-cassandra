@@ -19,7 +19,7 @@ RUN 	cd /var/lib/dpkg/info && \
 	apt-get install oracle-java8-installer -y --allow-unauthenticated && \
 	apt-get clean
 
-ENV JAVA_HOME usr/lib/jvm/java-8-oracle/
+ENV JAVA_HOME usr/lib/jvm/java-8-oracle
 
 # install and configure supervisor + curl
 RUN apt-get update && apt-get install -y supervisor curl && rm -rf /var/lib/apt/lists/* && mkdir -p /var/log/supervisor
