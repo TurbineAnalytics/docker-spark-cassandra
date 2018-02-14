@@ -32,6 +32,20 @@ SUPERVISOR_CONF_WORKER="/supervisor.conf/supervisord-worker.conf"
 RUN 	curl -s http://www-eu.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
 	cd /usr/local && ln -s spark-2.2.0-bin-hadoop2.7 spark
 
+RUN 	mkdir spark-libs && \
+	wget http://central.maven.org/maven2/com/google/guava/guava/16.0.1/guava-16.0.1.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/net/finmath/finmath-lib/3.0.14/finmath-lib-3.0.14.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/org/scalaz/scalaz-core_2.11/7.2.3/scalaz-core_2.11-7.2.3.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/org/jblas/jblas/1.2.4/jblas-1.2.4.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/org/threeten/threetenbp/1.3.4/threetenbp-1.3.4.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/com/google/code/gson/gson/2.7/gson-2.7.jar -P spark-libs && \
+	mv spark-libs/*.jar usr/local/spark/jars && \
+	rm -rf spark-libs && \
+  	cd usr/local/spark/jars && \
+	rm guava-14.0.1.jar
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libjemalloc1 \
     && apt-get install net-tools \
