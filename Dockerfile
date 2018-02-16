@@ -29,10 +29,11 @@ ENV SUPERVISOR_CONF_DEFAULT="/supervisor.conf/supervisord-cass.conf" SUPERVISOR_
 SUPERVISOR_CONF_WORKER="/supervisor.conf/supervisord-worker.conf"
 
 # download and install spark
-RUN 	curl -s http://www-eu.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
+RUN 	wget http://www-eu.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
 	cd /usr/local && ln -s spark-2.2.0-bin-hadoop2.7 spark
 
 RUN 	mkdir spark-libs && \
+	wget http://central.maven.org/maven2/com/datastax/spark/spark-cassandra-connector_2.11/2.0.5/spark-cassandra-connector_2.11-2.0.5.jar -P spark-libs && \
 	wget http://central.maven.org/maven2/com/google/guava/guava/16.0.1/guava-16.0.1.jar -P spark-libs && \
 	wget http://central.maven.org/maven2/net/finmath/finmath-lib/3.0.14/finmath-lib-3.0.14.jar -P spark-libs && \
 	wget http://central.maven.org/maven2/org/scalaz/scalaz-core_2.11/7.2.3/scalaz-core_2.11-7.2.3.jar -P spark-libs && \
@@ -59,7 +60,7 @@ COPY backup/ /backup
 RUN touch /var/log/cron.log
 
 # copy some script to run spark
-COPY ["scripts/start-master.sh", "scripts/start-worker.sh", "scripts/spark-shell.sh", "scripts/spark-cassandra-connector.jar", "scripts/spark-defaults.conf", "./"]
+COPY ["scripts/start-master.sh", "scripts/start-worker.sh", "scripts/spark-shell.sh", "scripts/spark-defaults.conf", "./"]
 COPY conf/log4j-server.properties /app/log4j-server.properties
 COPY conf/spark-env.sh /usr/local/spark/conf/spark-env.sh
 
