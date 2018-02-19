@@ -7,7 +7,7 @@ env:
   - MODULE=docker-spark-cassandra
 
 before_install:
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 script:
   - ./build-and-push-docker-image.sh
