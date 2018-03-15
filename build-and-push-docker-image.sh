@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # tag prefixes
-export PRODUCATION_BRANCH_TAG="production"
+export PRODUCTION_BRANCH_TAG="production"
 
 export MASTER_BRANCH_TAG="master"
 export MASTER_IMAGE_TAG="test"
@@ -15,8 +15,8 @@ export SUPPORT_TAG_POSTFIX="-support"
 # Build
 export TAG=`if [ "$TRAVIS_BRANCH" == "$MASTER_BRANCH_TAG" ]; then
 	  echo "$MASTER_IMAGE_TAG";
-	elif [ "$TRAVIS_BRANCH" == "$PRODUCATION_BRANCH_TAG" ]; then
-		echo "$PRODUCATION_BRANCH_TAG";
+	elif [ "$TRAVIS_BRANCH" == "$PRODUCTION_BRANCH_TAG" ]; then
+		echo "$PRODUCTION_BRANCH_TAG";
 	elif [[ "$TRAVIS_BRANCH" =~ ^feature/ ]]; then
 		name=$(echo $TRAVIS_BRANCH | cut -f2 -d "/")
 		echo "${name}$FEATURE_TAG_POSTFIX";
