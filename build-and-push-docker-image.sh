@@ -4,7 +4,7 @@
 export PRODUCATION_BRANCH_TAG="production"
 
 export MASTER_BRANCH_TAG="master"
-export MASTER_IMAGE_TAG="dev"
+export MASTER_IMAGE_TAG="test"
 
 export FEATURE_TAG_POSTFIX="-feature"
 export RELEASE_TAG_POSTFIX="-release"
