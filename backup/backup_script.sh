@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/opt/java/bin
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/opt/java/bin:/usr/lib/jvm/java-8-oracle/bin
 
 DATE=`date +%Y%m%d%H%M%S`
 
