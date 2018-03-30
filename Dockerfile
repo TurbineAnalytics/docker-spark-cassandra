@@ -42,6 +42,7 @@ RUN 	mkdir spark-libs && \
 	wget http://central.maven.org/maven2/org/jblas/jblas/1.2.4/jblas-1.2.4.jar -P spark-libs && \
 	wget http://central.maven.org/maven2/org/threeten/threetenbp/1.3.4/threetenbp-1.3.4.jar -P spark-libs && \
 	wget http://central.maven.org/maven2/com/google/code/gson/gson/2.7/gson-2.7.jar -P spark-libs && \
+	wget http://central.maven.org/maven2/com/twitter/jsr166e/1.1.0/jsr166e-1.1.0.jar -P spark-libs && \
 	mv spark-libs/*.jar usr/local/spark/jars && \
 	rm -rf spark-libs && \
   	cd usr/local/spark/jars && \
