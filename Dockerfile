@@ -1,4 +1,4 @@
-FROM cassandra:3.5
+FROM cassandra:3.11
 
 # auto validate license
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
@@ -29,7 +29,7 @@ ENV SUPERVISOR_CONF_DEFAULT="/supervisor.conf/supervisord-cass.conf" SUPERVISOR_
 SUPERVISOR_CONF_WORKER="/supervisor.conf/supervisord-worker.conf"
 
 # download and install spark
-RUN 	wget -O- http://www-eu.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
+RUN 	wget -O- http://archive.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
 	cd /usr/local && ln -s spark-2.2.0-bin-hadoop2.7 spark
 
 RUN 	mkdir spark-libs && \
@@ -70,7 +70,7 @@ ENV SPARK_HOME=/usr/local/spark SPARK_MASTER_OPTS="-Dspark.driver.port=7001 -Dsp
 SPARK_MASTER_PORT=7077 SPARK_MASTER_WEBUI_PORT=8080 SPARK_WORKER_PORT=8888 SPARK_WORKER_WEBUI_PORT=8081 CASSANDRA_CONFIG=/etc/cassandra
 
 # listen to all rpc
-RUN 	sed -ri 's/^(rpc_address:).*/\1 0.0.0.0/;' "$CASSANDRA_CONFIG/cassandra.yaml" && \  
+RUN 	sed -ri 's/^(rpc_address:).*/\1 0.0.0.0/;' "$CASSANDRA_CONFIG/cassandra.yaml" && \
 	sed -ri '/authenticator: AllowAllAuthenticator/c\authenticator: PasswordAuthenticator' "$CASSANDRA_CONFIG/cassandra.yaml" && \
 	sed -ri '/authorizer: AllowAllAuthorizer/c\authorizer: CassandraAuthorizer' "$CASSANDRA_CONFIG/cassandra.yaml" && \
 	sed -ri '/endpoint_snitch: SimpleSnitch/c\endpoint_snitch: GossipingPropertyFileSnitch' "$CASSANDRA_CONFIG/cassandra.yaml" && \
@@ -103,4 +103,3 @@ ENTRYPOINT ["/cassandra-configurator.sh"]
 EXPOSE 4040 7000 7001 7002 7003 7004 7005 7006 7077 7199 8080 8081 8888 9042 9160
 
 CMD ["cassandra"]
-
