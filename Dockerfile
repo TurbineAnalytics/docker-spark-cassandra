@@ -29,7 +29,7 @@ ENV SUPERVISOR_CONF_DEFAULT="/supervisor.conf/supervisord-cass.conf" SUPERVISOR_
 SUPERVISOR_CONF_WORKER="/supervisor.conf/supervisord-worker.conf"
 
 # download and install spark
-RUN 	wget -O- http://www-eu.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
+RUN 	wget -O- https://archive.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
 	cd /usr/local && ln -s spark-2.2.0-bin-hadoop2.7 spark
 
 RUN 	mkdir spark-libs && \

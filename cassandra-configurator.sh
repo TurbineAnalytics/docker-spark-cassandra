@@ -57,6 +57,25 @@ function init_cassandra {
 	done
 }
 
+function setup_cron {
+    echo "SHELL=/bin/sh" > /backup/crontab.txt
+
+    if [ "$CASSANDRA_CRON" = 'ENABLE' ]; then
+        echo "" >> /backup/crontab.txt
+        cat /backup/cassandra_backup_crontab.txt >> /backup/crontab.txt
+    fi
+
+    if [ "$REPAIRING_CRON" = 'ENABLE' ]; then
+        echo "" >> /backup/crontab.txt
+        cat /backup/cassandra_repair_crontab.txt >> /backup/crontab.txt
+    fi
+
+    echo "" >> /backup/crontab.txt
+    echo "# New line is required at the EOF for cron to work" >> /backup/crontab.txt
+
+    ./backup/setup_crone_job.sh
+}
+
 CONFIG_FILE=${SUPERVISOR_CONF_DEFAULT}
 
 case "$1" in
@@ -73,8 +92,6 @@ case "$1" in
         ;;
 esac
 
-if [ "$CASSANDRA_CRON" = 'ENABLE' ]; then
-  ./backup/setup_crone_job.sh
-fi
+setup_cron
 
 exec /usr/bin/supervisord -c ${CONFIG_FILE}

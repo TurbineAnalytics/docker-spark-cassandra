@@ -1,3 +1,3 @@
 #!/bin/sh
-crontab /backup/cassandra_backup_cronjob.txt
+crontab /backup/crontab.txt
 service cron start
