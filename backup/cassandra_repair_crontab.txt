@@ -1,4 +1,0 @@
-#Cassandra incremental node repair job, run from Monday to Saturday at 2 a.m.
-0 2 1-7 * * [ "$(date '+\%u')" == "7" ] && /backup/increment_repair_script.sh >> /var/log/cron.log 2>&1
-#Cassandra full node repair job, run on Sunday at 2 a.m.
-0 2 8-31 * * [ "$(date '+\%u')" == "7" ] && /backup/full_repair_script.sh >> /var/log/cron.log 2>&1

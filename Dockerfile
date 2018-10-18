@@ -57,6 +57,9 @@ RUN apt-get update \
 # copy necessary files for backups to work
 COPY backup/ /backup
 
+# copy necessary files for cassandra repairs to work
+COPY repair/ /repair
+
 # enable cron logging
 RUN touch /var/log/cron.log
 

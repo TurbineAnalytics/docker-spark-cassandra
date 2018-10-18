@@ -58,20 +58,20 @@ function init_cassandra {
 }
 
 function setup_cron {
-    echo "SHELL=/bin/sh" > /backup/crontab.txt
+    echo "SHELL=/bin/bash" > /crontab.txt
 
     if [ "$CASSANDRA_CRON" = 'ENABLE' ]; then
-        echo "" >> /backup/crontab.txt
-        cat /backup/cassandra_backup_crontab.txt >> /backup/crontab.txt
+        echo "" >> /crontab.txt
+        cat /backup/cassandra_backup_crontab.txt >> /crontab.txt
     fi
 
     if [ "$REPAIRING_CRON" = 'ENABLE' ]; then
-        echo "" >> /backup/crontab.txt
-        cat /backup/cassandra_repair_crontab.txt >> /backup/crontab.txt
+        echo "" >> /crontab.txt
+        cat /repair/cassandra_repair_crontab.txt >> /crontab.txt
     fi
 
-    echo "" >> /backup/crontab.txt
-    echo "# New line is required at the EOF for cron to work" >> /backup/crontab.txt
+    echo "" >> /crontab.txt
+    echo "# New line is required at the EOF for cron to work" >> /crontab.txt
 
     ./backup/setup_crone_job.sh
 }

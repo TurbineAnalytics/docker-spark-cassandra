@@ -1,3 +1,3 @@
 #!/bin/sh
-crontab /backup/crontab.txt
+crontab /crontab.txt
 service cron start
