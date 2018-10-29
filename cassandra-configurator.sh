@@ -73,7 +73,7 @@ function setup_cron {
     echo "" >> /crontab.txt
     echo "# New line is required at the EOF for cron to work" >> /crontab.txt
 
-    ./backup/setup_crone_job.sh
+    ./setup_crone_job.sh
 }
 
 CONFIG_FILE=${SUPERVISOR_CONF_DEFAULT}
