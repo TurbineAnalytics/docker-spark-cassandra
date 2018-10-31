@@ -60,6 +60,9 @@ COPY backup/ /backup
 # copy necessary files for cassandra repairs to work
 COPY repair/ /repair
 
+# copy script used to setup cron job
+COPY setup_crone_job.sh /setup_crone_job.sh
+
 # enable cron logging
 RUN touch /var/log/cron.log
 
