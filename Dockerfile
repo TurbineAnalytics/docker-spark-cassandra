@@ -1,26 +1,20 @@
 FROM cassandra:3.11
 
-# auto validate license
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+# Install OpenJDK-8
+RUN apt-get update && \
+    apt-get install -y openjdk-8-jdk && \
+    apt-get install -y ant && \
+    apt-get clean;
 
-# update repos
-RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" > /etc/apt/sources.list.d/webupd8team-java.list
-RUN echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/webupd8team-java.list
+# Fix certificate issues
+RUN apt-get update && \
+    apt-get install ca-certificates-java && \
+    apt-get clean && \
+    update-ca-certificates -f;
 
-RUN	apt-key adv --no-tty --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
-	apt-get update && \
-	apt-get install oracle-java8-installer -y --allow-unauthenticated || echo ''
+# Setup JAVA_HOME -- useful for docker commandline
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 
-# patch installer
-RUN 	cd /var/lib/dpkg/info && \
-	sed -i 's|JAVA_VERSION=8u151|JAVA_VERSION=8u161|' oracle-java8-installer.* && \
-	sed -i 's|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/|' oracle-java8-installer.* && \
-	sed -i 's|SHA256SUM_TGZ="c78200ce409367b296ec39be4427f020e2c585470c4eed01021feada576f027f"|SHA256SUM_TGZ="6dbc56a0e3310b69e91bb64db63a485bd7b6a8083f08e48047276380a0e2021e"|' oracle-java8-installer.* && \
-	sed -i 's|J_DIR=jdk1.8.0_151|J_DIR=jdk1.8.0_161|' oracle-java8-installer.* && \
-	apt-get install oracle-java8-installer -y --allow-unauthenticated && \
-	apt-get clean
-
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 # install and configure supervisor + curl
 RUN apt-get update && apt-get install -y supervisor curl && rm -rf /var/lib/apt/lists/* && mkdir -p /var/log/supervisor
@@ -30,6 +24,8 @@ ENV SUPERVISOR_CONF_DEFAULT="/supervisor.conf/supervisord-cass.conf" SUPERVISOR_
 SUPERVISOR_CONF_WORKER="/supervisor.conf/supervisord-worker.conf"
 
 # download and install spark
+RUN apt-get update && \
+	apt-get install -y wget
 RUN 	wget -O- http://archive.apache.org/dist/spark/spark-2.2.3/spark-2.2.3-bin-hadoop2.7.tgz | tar -xz -C /usr/local/ && \
 	cd /usr/local && ln -s spark-2.2.3-bin-hadoop2.7 spark
 
